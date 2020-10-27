@@ -50,7 +50,7 @@ def train(epoch, training_loader, model, optimizer, model_directory):
         optimizer.step()
         counter = counter + len(data)
         if counter % 100 == 0:
-            print(f" Epoch - {epoch} - current training {counter} / {total}")
+            print(f" Epoch - {epoch} - current training {counter/8} / {total}")
 
     torch.save(model.state_dict(), model_directory + '_' + str(epoch) + ".pt")
     done = time.time()
@@ -79,7 +79,7 @@ def validation(epoch, testing_loader, model):
             unique_ids = np.append(unique_ids, data['u_id'])
             counter = counter + len(data)
             if counter % 100 == 0:
-                print(f" Epoch - {epoch} - current Inference {counter} / {total}")
+                print(f" Epoch - {epoch} - current Inference {counter/4} / {total}")
     done = time.time()
     elapsed = (done - start) / 60
     return unique_ids, validation_targets, validation_outputs, elapsed
