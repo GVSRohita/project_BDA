@@ -4,10 +4,12 @@ import torch
 
 class CustomDataset(Dataset):
 
-    def __init__(self, dataframe, tokenizer, max_len, number_of_classes):
+    def __init__(self, dataframe, tokenizer, max_len, number_of_classes, inference=False):
         self.tokenizer = tokenizer
         self.features = dataframe.desc
-        self.labels = dataframe.label
+        self.inference = inference
+        if not self.inference:
+            self.labels = dataframe.label
         self.unique_ids = dataframe.u_id
         self.max_len = max_len
         self.number_of_classes = number_of_classes
@@ -33,7 +35,8 @@ class CustomDataset(Dataset):
         token_type_ids = inputs["token_type_ids"]
 
         targets = torch.zeros(self.number_of_classes)
-        targets[self.labels[index]] = 1
+        if not self.inference:
+            targets[self.labels[index]] = 1
 
         return {
             'ids': torch.tensor(ids, dtype=torch.long),

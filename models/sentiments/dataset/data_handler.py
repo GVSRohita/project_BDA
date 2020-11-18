@@ -44,7 +44,7 @@ def load_datasets(classification_dataframe, train_size=0.8, number_of_classes=16
 def load_test_datasets(test_df, number_of_classes=16):
     test_df = test_df.reset_index(drop=True)
     print("Test Dataset: {}".format(test_df.shape))
-    testing_set = CustomDataset(test_df, tokenizer, MAX_LEN, number_of_classes)
+    testing_set = CustomDataset(test_df, tokenizer, MAX_LEN, number_of_classes, inference=True)
 
     test_params = {'batch_size': VALID_BATCH_SIZE,
                    'shuffle': True,

@@ -111,6 +111,6 @@ def load_model(model_file, testing_loader, number_of_classes):
     model = setup_model(number_of_classes)
     model.load_state_dict(torch.load(model_file))
     unique_ids, val_targets, val_outputs, inference_time = validation(1, testing_loader, model)
-    validation_accuracy = accuracy_score(val_targets, val_outputs) * 100
-    print('Epoch {} - accuracy {} - Inference time {} '.format(1, validation_accuracy, inference_time))
+    # validation_accuracy = accuracy_score(val_targets, val_outputs) * 100
+    # print('Epoch {} - accuracy {} - Inference time {} '.format(1, validation_accuracy, inference_time))
     return unique_ids, val_outputs
