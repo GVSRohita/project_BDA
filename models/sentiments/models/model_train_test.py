@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 import json
 import time
+from sklearn.metrics import classification_report
+
 
 device = 'cuda' if cuda.is_available() else 'cpu'
 
