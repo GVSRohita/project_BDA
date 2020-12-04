@@ -4,20 +4,26 @@ import os
 import pandas as pd
 import numpy as np
 
-root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria's"
-final_data = os.path.join(root_dir, "twitter_29_liwc_label.csv")
+"""
+Ignore this file, as its part of some of our experiments to understand sentiments better by doing this 
+parameters based on OCEAN metrics
+"""
+
+root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/BDA_Project"
+final_data = os.path.join(root_dir, "FB_Topic.csv")
 load_model_path = ""
-# list_vals = ["cOPN", "cCON", "cEXT", "cAGR", "cNEU"]
 list_vals = ["cOPN", "cCON", "cEXT", "cAGR", "cNEU"]
 
 
 def process_df(input_df, input_str):
     input_df['u_id'] = input_df.index
-    input_df.rename(columns={"STATUS": "desc", input_str: "label"}, inplace=True)
+    # input_df['CLEAN_STATUS'] = input_df['TOPICS'] + input_df['CLEAN_STATUS']
+    # input_df.rename(columns={"CLEAN_STATUS": "desc", input_str: "label"}, inplace=True)
+    input_df.rename(columns={"TOPICS": "desc", input_str: "label"}, inplace=True)
     return input_df
 
 
-def train_financial_news_sentiments():
+def train_for_classification():
     for each in list_vals:
         classification_df = pd.read_csv(final_data)
         classification_df = process_df(classification_df, each)
@@ -40,7 +46,5 @@ def inference_classification():
 
 
 if __name__ == '__main__':
-    train_financial_news_sentiments()
+    train_for_classification()
 
-# load_model_path = os.path.join(root_dir, 'prob_state_dict2.pt')
-# load_model(load_model_path, training_loader, testing_loader)
