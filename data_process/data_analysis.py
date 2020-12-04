@@ -31,7 +31,6 @@ def apply_date(input):
 
 def process_data():
     counter = 0
-
     for each in list(news_data_df.ticker.unique()):
         filtered_stocks = stock_data_df[stock_data_df.stock_ticker == each]
         filtered_opinions = news_data_df[news_data_df.ticker == each]
@@ -48,8 +47,6 @@ def process_data():
         each_plot_path = os.path.join(plots_path, each + ".png")
         plt.savefig(each_plot_path)
         counter += 1
-        if counter >= 20:
-            break
 
 
 def analyze_data_balance():
@@ -62,4 +59,4 @@ def analyze_data_balance():
 
 
 if __name__ == '__main__':
-    analyze_data_balance()
+    process_data()
