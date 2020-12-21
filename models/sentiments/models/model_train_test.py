@@ -7,7 +7,6 @@ import json
 import time
 from sklearn.metrics import classification_report
 
-
 device = 'cuda' if cuda.is_available() else 'cpu'
 
 
@@ -52,7 +51,7 @@ def train(epoch, training_loader, model, optimizer, model_directory):
         optimizer.step()
         counter = counter + len(data)
         if counter % 100 == 0:
-            print(f" Epoch - {epoch} - current training {counter/8} / {total}")
+            print(f" Epoch - {epoch} - current training {counter / 8} / {total}")
 
     torch.save(model.state_dict(), model_directory + '_' + str(epoch) + ".pt")
     done = time.time()
@@ -81,7 +80,7 @@ def validation(epoch, testing_loader, model):
             unique_ids = np.append(unique_ids, data['u_id'])
             counter = counter + len(data)
             if counter % 100 == 0:
-                print(f" Epoch - {epoch} - current Inference {counter/4} / {total}")
+                print(f" Epoch - {epoch} - current Inference {counter / 4} / {total}")
     done = time.time()
     elapsed = (done - start) / 60
     return unique_ids, validation_targets, validation_outputs, elapsed
@@ -91,6 +90,8 @@ def start_epochs(training_loader, testing_loader, metrics_json, model_directory,
     model = setup_model(number_of_classes)
     optimizer = get_optimizer(model)
     accuracy_map = {}
+    best_val_accuracy = 0
+    best_unique_ids, best_val_targets, best_val_outputs = None, None, None
     for epoch in range(epochs):
         unique_ids, train_targets, train_outputs, train_time = train(epoch, training_loader, model, optimizer,
                                                                      model_directory)
@@ -98,6 +99,8 @@ def start_epochs(training_loader, testing_loader, metrics_json, model_directory,
         print('Epoch {} - accuracy {}'.format(epoch, train_accuracy))
         unique_ids, val_targets, val_outputs, inference_time = validation(epoch, testing_loader, model)
         validation_accuracy = accuracy_score(val_targets, val_outputs) * 100
+        if validation_accuracy > best_val_accuracy:
+            best_unique_ids, best_val_targets, best_val_outputs = unique_ids, val_targets, val_outputs
         print('Epoch {} - accuracy {}'.format(epoch, validation_accuracy))
         accuracy_map["train_accuracy_" + str(epoch)] = train_accuracy
         accuracy_map["train_time_" + str(epoch)] = train_time
@@ -107,6 +110,7 @@ def start_epochs(training_loader, testing_loader, metrics_json, model_directory,
     with open(metrics_json, 'w') as f:
         json.dump(accuracy_map, f, indent=2)
         f.close()
+    return best_unique_ids, best_val_targets, best_val_outputs
 
 
 def load_model(model_file, testing_loader, number_of_classes):
