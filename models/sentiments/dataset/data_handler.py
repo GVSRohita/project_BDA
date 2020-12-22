@@ -23,6 +23,13 @@ def load_datasets(classification_dataframe, train_size=0.8, number_of_classes=16
     print("TRAIN Dataset: {}".format(train_dataset.shape))
     print("TEST Dataset: {}".format(test_dataset.shape))
 
+    for each in list(train_dataset.label.unique()):
+        each_df = train_dataset[train_dataset.label == each]
+        print("Train for class {} Dataset: {}".format(each, each_df.shape))
+    for each in list(test_dataset.label.unique()):
+        each_df = test_dataset[test_dataset.label == each]
+        print("Test for class {} Dataset: {}".format(each, each_df.shape))
+
     training_set = CustomDataset(train_dataset, tokenizer, MAX_LEN, number_of_classes)
     testing_set = CustomDataset(test_dataset, tokenizer, MAX_LEN, number_of_classes)
 
