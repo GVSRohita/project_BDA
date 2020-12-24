@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import os
 import json
 
-root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria/twittter_LIWC"
+root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria/Data/non-liwc"
 
 
 # root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/BDA_Project"
@@ -41,9 +41,10 @@ def get_values(input_metrics, plot_title, file_name):
     plot_accuracy(train_accuracy, validation_accuracy, 'Epoch', 'Accuracy', plot_title, file_name)
 
 
-accuracy_metrics = ["accuracy_metrics_cOPN.json",
-                    "accuracy_metrics_cCON.json", "accuracy_metrics_cEXT.json", "accuracy_metrics_cAGR.json",
-                    "accuracy_metrics_cNEU.json"]
+# accuracy_metrics = ["accuracy_metrics_cOPN.json", "accuracy_metrics_cCON.json", "accuracy_metrics_cEXT.json",
+#                     "accuracy_metrics_cAGR.json", "accuracy_metrics_cNEU.json"]
+
+accuracy_metrics = ["accuracy_metrics_cOPN.json"]
 
 if __name__ == '__main__':
     for department_metrics in accuracy_metrics:

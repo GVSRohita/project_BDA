@@ -3,11 +3,12 @@ import os
 from utils.file_utils import write_json_dict
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 
-root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria/twittter_LIWC"
+# root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria/twittter_LIWC"
+root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria/Data/non-liwc"
 #list_prediction = ["predicted_cOPN.csv", "predicted_cCON.csv", "predicted_cEXT.csv", "predicted_cAGR.csv",
 #                   "predicted_cNEU.csv"]
 
-list_prediction = ["predicted_cOPN.csv", "predicted_cAGR.csv"]
+list_prediction = ["predicted_cOPN.csv"]
 
 def manual_check():
     for each in list_prediction:

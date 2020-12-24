@@ -13,8 +13,9 @@ root_dir = "/home/charan/Documents/workspaces/python_workspaces/Data/Saria"
 final_data = os.path.join(root_dir, "twitter_29_liwc_label.csv")
 formatted_data = os.path.join(root_dir, "formatted.csv")
 load_model_path = ""
-# list_vals = ["cOPN", "cCON", "cEXT", "cAGR", "cNEU"]
-list_vals = ["cOPN"]
+list_vals = ["cOPN", "cCON", "cEXT", "cAGR", "cNEU"]
+# list_vals = ["cOPN"]
+input_dict = {}
 
 liwc_list = ['Analytic', 'Clout', 'Authentic', 'Tone', 'WPS', 'Sixltr', 'Dic', 'function', 'pronoun', 'ppron', 'i',
              'we', 'you', 'shehe', 'they', 'ipron', 'article', 'prep', 'auxverb', 'adverb', 'conj', 'negate', 'verb',
@@ -25,6 +26,12 @@ liwc_list = ['Analytic', 'Clout', 'Authentic', 'Tone', 'WPS', 'Sixltr', 'Dic', '
              'relativ', 'motion', 'space', 'time', 'work', 'leisure', 'home', 'money', 'relig', 'death', 'informal',
              'swear', 'netspeak', 'assent', 'nonflu', 'filler', 'AllPunc', 'Period', 'Comma', 'Colon', 'SemiC', 'QMark',
              'Exclam', 'Dash', 'Quote', 'Apostro', 'Parenth', 'OtherP']
+
+
+def setup_dict():
+    for each in list_vals:
+        file_name = "twitter_uc_{}.csv".format(each)
+        input_dict[each] = os.path.join(root_dir, file_name)
 
 
 def apply_liwc(input_record):
@@ -45,7 +52,7 @@ def process_df(input_df):
 
 def train_for_classification():
     for each in list_vals:
-        classification_df = pd.read_csv(final_data)
+        classification_df = pd.read_csv(input_dict[each])
         classification_df['u_id'] = classification_df.index
         # classification_df = process_df(classification_df)
         classification_df.rename(columns={"STATUS": "desc", each: "label"}, inplace=True)
@@ -73,4 +80,5 @@ def inference_classification():
 
 
 if __name__ == '__main__':
+    setup_dict()
     train_for_classification()
