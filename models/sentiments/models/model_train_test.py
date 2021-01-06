@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 import json
 import time
+import os
 
 device = 'cuda' if cuda.is_available() else 'cpu'
 
@@ -85,12 +86,22 @@ def validation(epoch, testing_loader, model):
     return unique_ids, validation_targets, validation_outputs, elapsed
 
 
+def remove_model_paths(best_epoch, model_path, total_epochs):
+    if best_epoch is None:
+        return
+    best_model_path = model_path + '_' + str(best_epoch) + ".pt"
+    for epoch in range(total_epochs):
+        current_path = model_path + '_' + str(epoch) + ".pt"
+        if os.path.exists(current_path) and current_path != best_model_path:
+            os.remove(current_path)
+
+
 def start_epochs(training_loader, testing_loader, metrics_json, model_directory, epochs=3, number_of_classes=16):
     model = setup_model(number_of_classes)
     optimizer = get_optimizer(model)
     accuracy_map = {}
     best_val_accuracy = 0
-    best_unique_ids, best_val_targets, best_val_outputs = None, None, None
+
     for epoch in range(epochs):
         unique_ids, train_targets, train_outputs, train_time = train(epoch, training_loader, model, optimizer,
                                                                      model_directory)
@@ -99,7 +110,7 @@ def start_epochs(training_loader, testing_loader, metrics_json, model_directory,
         unique_ids, val_targets, val_outputs, inference_time = validation(epoch, testing_loader, model)
         validation_accuracy = accuracy_score(val_targets, val_outputs) * 100
         if validation_accuracy > best_val_accuracy:
-            best_unique_ids, best_val_targets, best_val_outputs = unique_ids, val_targets, val_outputs
+            best_unique_ids, best_val_targets, best_val_outputs, best_epoch = unique_ids, val_targets, val_outputs, epoch
         print('Epoch {} - accuracy {}'.format(epoch, validation_accuracy))
         accuracy_map["train_accuracy_" + str(epoch)] = train_accuracy
         accuracy_map["train_time_" + str(epoch)] = train_time
@@ -109,6 +120,7 @@ def start_epochs(training_loader, testing_loader, metrics_json, model_directory,
     with open(metrics_json, 'w') as f:
         json.dump(accuracy_map, f, indent=2)
         f.close()
+    remove_model_paths(best_epoch, model_directory, epochs)
     return best_unique_ids, best_val_targets, best_val_outputs
 
 
