@@ -3,7 +3,7 @@ import os
 import json
 import pandas as pd
 
-root_dir = "/home/charan/DATA/OCEAN_DATA/Results/LIWC/"
+root_dir = "/home/charan/DATA/non-pretrained/non-liwc/"
 list_accuracy = []
 
 

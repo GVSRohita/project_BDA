@@ -111,6 +111,7 @@ def start_epochs(training_loader, testing_loader, metrics_json, model_directory,
         validation_accuracy = accuracy_score(val_targets, val_outputs) * 100
         if validation_accuracy > best_val_accuracy:
             best_unique_ids, best_val_targets, best_val_outputs, best_epoch = unique_ids, val_targets, val_outputs, epoch
+            best_val_accuracy = validation_accuracy
         print('Epoch {} - accuracy {}'.format(epoch, validation_accuracy))
         accuracy_map["train_accuracy_" + str(epoch)] = train_accuracy
         accuracy_map["train_time_" + str(epoch)] = train_time

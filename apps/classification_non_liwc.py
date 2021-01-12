@@ -14,7 +14,6 @@ final_data = os.path.join(root_dir, "twitter_29_liwc_label.csv")
 formatted_data = os.path.join(root_dir, "formatted.csv")
 load_model_path = ""
 list_vals = ["cOPN", "cCON", "cEXT", "cAGR", "cNEU"]
-# list_vals = ["cOPN"]
 input_dict = {}
 
 liwc_list = ['Analytic', 'Clout', 'Authentic', 'Tone', 'WPS', 'Sixltr', 'Dic', 'function', 'pronoun', 'ppron', 'i',
