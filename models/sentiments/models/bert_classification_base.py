@@ -1,15 +1,14 @@
 import torch
-import transformers
 from transformers import BertForPreTraining
 
 
 class BERTClass(torch.nn.Module):
     def __init__(self, number_of_classes=16):
         super(BERTClass, self).__init__()
-        self.bert = transformers.BertModel.from_pretrained('bert-base-uncased')
-        self.reset_weight(self.bert)
-        # self.bert = BertForPreTraining.from_pretrained('bert-base-uncased')
-        self.classifier = torch.nn.Sequential(
+        # self.bert = transformers.BertModel.from_pretrained('bert-base-uncased')
+        # self.reset_weight(self.bert)
+        self.bert = BertForPreTraining.from_pretrained('bert-base-uncased')
+        self.bert.cls.seq_relationship = torch.nn.Sequential(
             torch.nn.Dropout(0.3),
             torch.nn.Linear(768, 512),
             torch.nn.Linear(512, 256),
@@ -20,11 +19,5 @@ class BERTClass(torch.nn.Module):
 
     def forward(self, ids, mask, token_type_ids):
         _, output_1 = self.bert(ids, attention_mask=mask, token_type_ids=token_type_ids)
-        output = self.classifier(output_1)
-        return output
-
-    def reset_weight(self, model):
-        reset_parameters = getattr(model, "reset_parameters", None)
-        print("reset weights done")
-        if callable(reset_parameters):
-            model.reset_parameters()
+        # output = self.classifier(output_1)
+        return output_1
