@@ -7,7 +7,7 @@ class BERTClass(torch.nn.Module):
         super(BERTClass, self).__init__()
         # self.bert = transformers.BertModel.from_pretrained('bert-base-uncased')
         # self.reset_weight(self.bert)
-        self.bert = BertForPreTraining.from_pretrained('bert-base-uncased')
+        self.bert = BertForPreTraining.from_pretrained('bert-base-uncased',return_dict=False)
         self.bert.cls.seq_relationship = torch.nn.Sequential(
             torch.nn.Dropout(0.3),
             torch.nn.Linear(768, 512),
