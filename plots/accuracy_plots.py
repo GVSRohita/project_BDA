@@ -3,7 +3,7 @@ import os
 import json
 import pandas as pd
 
-root_dir = "/home/charan/DATA/non-pretrained/non-liwc/"
+root_dir = "/home/charan/DATA/311_Data/visualization/VIZ_Classification"
 list_accuracy = []
 
 
@@ -46,8 +46,7 @@ def get_values(input_metrics, plot_title, file_name):
     list_accuracy.append(map_accuracy)
 
 
-accuracy_metrics = ["accuracy_metrics_cOPN.json", "accuracy_metrics_cCON.json", "accuracy_metrics_cEXT.json",
-                    "accuracy_metrics_cAGR.json", "accuracy_metrics_cNEU.json"]
+accuracy_metrics = ["accuracy_metrics.json"]
 
 if __name__ == '__main__':
     for department_metrics in accuracy_metrics:

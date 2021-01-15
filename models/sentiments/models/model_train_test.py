@@ -1,6 +1,6 @@
 from torch import cuda
 import torch
-from models.sentiments.models.bert_classification_base import BERTClass
+from models.sentiments.models.bert_classification import BERTClass
 import numpy as np
 from sklearn.metrics import accuracy_score
 import json
