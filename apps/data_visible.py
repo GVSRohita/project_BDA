@@ -6,7 +6,7 @@ import numpy as np
 
 from utils.file_utils import write_json_dict, read_json
 
-root_dir = "/home/charan/DATA/311_Data"
+root_dir = "/DATA/311_data/"
 final_data = os.path.join(root_dir, "311_VIZ_DESCRIPTION.csv")
 write_json = os.path.join(root_dir, "class.json")
 load_model_path = ""
